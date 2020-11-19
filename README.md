@@ -1,0 +1,1 @@
+# opencv-yolo-qr-detection
