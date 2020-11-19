@@ -1,5 +1,5 @@
 # QR Detection with OpenCV Python and YOLO Model
-The samples demonstrates how to detect QR with [YOLO](https://pjreddie.com/darknet/yolo/) and how to decode QR with [Dynamsoft Barcode Reader](https://www.dynamsoft.com/Products/Dynamic-Barcode-Reader.aspx).
+The samples demonstrate how to detect QR with [YOLO](https://pjreddie.com/darknet/yolo/) and how to decode QR with [Dynamsoft Barcode Reader](https://www.dynamsoft.com/Products/Dynamic-Barcode-Reader.aspx).
 
 ## Installation
 
