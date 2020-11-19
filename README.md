@@ -66,6 +66,18 @@ except BarcodeReaderError as bre:
     print(bre)
 ```
 
+Image file:
+
+```
+python3 yolo-dbr.py
+```
+
+Camera:
+
+```
+python3 yolo-dbr-camera.py
+```
+
 
 
 ## References
