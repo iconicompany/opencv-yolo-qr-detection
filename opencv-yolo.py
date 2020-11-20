@@ -8,8 +8,21 @@ import time
 
 # Load an image
 frame = cv.imread("416x416.jpg")
+# frame = cv.imread("test.jpg")
 
 threshold = 0.6  
+maxWidth = 1280; maxHeight = 720
+imgHeight, imgWidth = frame.shape[:2]
+hScale = 1; wScale = 1
+thickness = 1
+
+if imgHeight > maxHeight:
+    hScale = imgHeight / maxHeight
+    thickness = 6
+
+if imgWidth > maxWidth:
+    wScale = imgWidth / maxWidth
+    thickness = 6
 
 # Load class names and YOLOv3-tiny model
 classes = open('qrcode.names').read().strip().split('\n')
@@ -51,9 +64,12 @@ def postprocess(frame, outs):
         top = box[1]
         width = box[2]
         height = box[3]
+        cropped_image = frame[top:top + height, left:left + width]
+        cv.imshow('cropped', cropped_image)
+        cv.imwrite('cropped.jpg', cropped_image)
 
         # Draw bounding box for objects
-        cv.rectangle(frame, (left, top), (left + width, top + height), (0, 0, 255))
+        cv.rectangle(frame, (left, top), (left + width, top + height), (0, 0, 255), thickness)
 
         # Draw class name and confidence
         label = '%s:%.2f' % (classes[classIds[i]], confidences[i])
@@ -74,6 +90,11 @@ start_time = time.monotonic()
 postprocess(frame, outs)
 elapsed_ms = (time.monotonic() - start_time) * 1000
 print('postprocess in %.1fms' % (elapsed_ms))
+
+if hScale > wScale:
+    frame = cv.resize(frame, (int(imgWidth / hScale), maxHeight))
+elif hScale < wScale:
+    frame = cv.resize(frame, (maxWidth, int(imgHeight / wScale)))
 
 cv.imshow('QR Detection', frame)
 cv.waitKey()
