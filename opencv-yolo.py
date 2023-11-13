@@ -58,15 +58,18 @@ def postprocess(frame, outs):
 
     indices = cv.dnn.NMSBoxes(boxes, confidences, threshold, threshold - 0.1)
     for i in indices:
-        i = i[0]
+        i = i
         box = boxes[i]
         left = box[0]
         top = box[1]
         width = box[2]
         height = box[3]
-        cropped_image = frame[top:top + height, left:left + width]
-        cv.imshow('cropped', cropped_image)
-        cv.imwrite('cropped.jpg', cropped_image)
+        try:
+            cropped_image = frame[top:top + height, left:left + width]
+            cv.imshow('cropped', cropped_image)
+            cv.imwrite('cropped.jpg', cropped_image)
+        except Exception as err:
+            print(err)
 
         # Draw bounding box for objects
         cv.rectangle(frame, (left, top), (left + width, top + height), (0, 0, 255), thickness)
@@ -77,7 +80,7 @@ def postprocess(frame, outs):
 
 # Determine the output layer
 ln = net.getLayerNames()
-ln = [ln[i[0] - 1] for i in net.getUnconnectedOutLayers()]
+ln = [ln[i - 1] for i in net.getUnconnectedOutLayers()]
 
 net.setInput(blob)
 start_time = time.monotonic()
